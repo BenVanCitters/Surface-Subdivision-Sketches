@@ -19,6 +19,19 @@ class SubDSurf
      pts[3][1] = 250;
      pts[3][2] = 0;
    }
+   
+   public float[] getCenterPoint()
+   {
+     float[] result = new float[3];
+     result[0] =pts[0][0]+pts[1][0]+pts[2][0]+pts[3][0]; 
+     result[1] =pts[0][1]+pts[1][1]+pts[2][1]+pts[3][1];
+     result[2] =pts[0][2]+pts[1][2]+pts[2][2]+pts[3][2];
+     result[0]/=4;
+     result[1]/=4;
+     result[2]/=4;
+     return result;
+   }
+   
    public void animateStartingShape(float  tm)
    {
      pts[0][0] = -1250*sin(tm);
