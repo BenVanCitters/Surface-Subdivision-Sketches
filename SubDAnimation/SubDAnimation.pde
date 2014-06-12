@@ -29,7 +29,7 @@ void draw()
   float tm  =  (frameCount*1000.f/30.f)/3600.f;//millis()/2000.f;
   curTime = tm; //global
   mySubs.clear();
-//  s.animateStartingShape(tm);
+  s.animateStartingShape(tm);
   recurSubDiv((int)(mouseY*13/height),s.subD());
 //  recurSubDiv(6,s.subD());
   directionalLight(255,0,0,1,0,0);
@@ -41,8 +41,8 @@ void draw()
   
   pushMatrix();
 //rotateY(tm);
-//  rotate(tm);
-//  rotateX(tm);
+  rotate(tm);
+  rotateX(tm);
 
   noStroke();
   fill(255);
