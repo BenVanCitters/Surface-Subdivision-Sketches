@@ -41,14 +41,11 @@ void draw()
   
   pushMatrix();
 //rotateY(tm);
-  rotate(tm);
-  rotateX(tm);
+//  rotate(tm);
+//  rotateX(tm);
 
   noStroke();
-//noFill();
-//fill(255,102,0);
-fill(255);
-//stroke(255);
+  fill(255);
   beginShape(TRIANGLES);
   for(SubDSurf sSs : mySubs)
   {
@@ -57,22 +54,23 @@ fill(255);
   endShape();
   popMatrix();
   
-  pushMatrix();
-  /*  rotate(tm);
-  rotateX(tm);*/
-  
-  rotate(tm);
-  rotateX(tm+PI);
-//  rotateY(PI+tm);
-  rotateZ(PI/2);
-  
-  beginShape(TRIANGLES);
-  for(SubDSurf sSs : mySubs)
-  {
-    sSs.passTriVerts();
-  }
-  endShape();
-  popMatrix();
+//  pushMatrix();
+//  /*  rotate(tm);
+//  rotateX(tm);*/
+//  
+//  rotate(tm);
+//  rotateX(tm+PI);
+////  rotateY(PI+tm);
+//  rotateZ(PI/2);
+//  
+//  beginShape(TRIANGLES);
+//  for(SubDSurf sSs : mySubs)
+//  {
+//    sSs.passTriVerts();
+//  }
+//  endShape();
+//  popMatrix();
+
 //  for(SubDSurf sSs : mySubs)
 //  {
 //    sSs.draw();
