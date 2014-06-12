@@ -17,7 +17,7 @@ void recurSubDiv(int level, ArrayList<SubDSurf> surf)
   {
     float[] centerPt = ff.getCenterPoint();
     float modVal = (1+sin(curTime*5+centerPt[0]))/2;
-    if(level < 1 || modVal >.5)
+    if(level < 1)// || modVal >.5)
       mySubs.add(ff);
     else
     recurSubDiv(level-1,ff.subD());
