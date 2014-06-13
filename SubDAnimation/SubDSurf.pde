@@ -130,7 +130,7 @@ class SubDSurf
     float my = .01+mouseY*5.f/height;
      ArrayList<SubDSurf> lst = new ArrayList<SubDSurf>();
      float cntr[] = getCenterPoint();
-     mx += .9+.001+.3*(1+sin(millis()/1000.f+cntr[0]/100))/2;
+     mx += .9+.001+.3*(1+sin(curTime/1000.f+cntr[0]/100))/2;
      float edgeLen = dist(pts[0][0],pts[0][1],pts[0][2],
                           (pts[0][0]+pts[2][0])/2,
                           (pts[0][1]+pts[2][1])/2,
