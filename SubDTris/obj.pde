@@ -1,11 +1,11 @@
 float[][] pts;
 int[][] tris; /////perhaps make this a pshape??
 
-void parsePointsAndFaces()
+void parsePointsAndFaces(String objFileName)
 {
   ArrayList<float[]> ptLst;
   ArrayList<int[]> triLst;
-  String[] lines = loadStrings("C:/Users/Benjamin/Documents/gun_nomat.obj");
+  String[] lines = loadStrings(objFileName);
 
   int tri[];
   ptLst = new ArrayList<float[]>();

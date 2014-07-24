@@ -65,7 +65,7 @@ void noteOff(int channel, int pad, int velocity) {
 
 float normalDisplacementFactor = 0;
 int subdivRecurDepth = 1;
-float overallScale = .01;
+float overallScale = 1.01;
 float globalTimeScale = 1;
 void controllerChange(int channel, int number, int value) {
   // Receive a controllerChange
