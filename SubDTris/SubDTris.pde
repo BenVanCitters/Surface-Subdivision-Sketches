@@ -1,4 +1,5 @@
-SubDTriSurf s;
+//SubDTriSurf s;
+ArrayList<SubDTriSurf> myOBJSubs;
 ArrayList<SubDTriSurf> mySubs;
 boolean capturing = false;
 float curTime = 0f;
@@ -6,10 +7,20 @@ void setup()
 {
   size(screenWidth,screenHeight,P3D);
   initLPD8();
-  noCursor();
-  s = new SubDTriSurf();
+//  noCursor();
+parsePointsAndFaces("skull2.obj");
+//  s = new SubDTriSurf();
   mySubs = new ArrayList<SubDTriSurf>();
-  recurSubDiv(0,s.subD());
+  myOBJSubs= new ArrayList<SubDTriSurf>();
+  for(int i = 0; i < tris.length; i++)
+  {
+    SubDTriSurf s = new SubDTriSurf();
+    
+    s.verts[0]= pts[tris[i][0]-1];
+    s.verts[1]= pts[tris[i][1]-1];
+    s.verts[2]= pts[tris[i][2]-1];
+    myOBJSubs.add(s); 
+  }
 }
 
 void recurSubDiv(int level, ArrayList<SubDTriSurf> surf)
@@ -29,28 +40,35 @@ void draw()
 {
   float maxDispl = 8;
   normalDisplacementFactor = mouseX*maxDispl/height;
-  subdivRecurDepth = 1+(6*mouseX)/width;
+  subdivRecurDepth = (10*mouseX)/width;
   
   float tm  = globalTimeScale* (frameCount*1000.f/30.f)/15600.f;//millis()/2000.f;
   curTime = tm; 
   mySubs.clear();
 //  s.animateStartingShape(tm);
-  recurSubDiv(subdivRecurDepth,s.subD());
-  
-//  directionalLight(255,0,0,1,0,0);
-//  directionalLight(0,255,0,0,1,0);
-//  directionalLight(0,0,255,0,-1,0);
+//ArrayList<SubDTriSurf>
+  for(SubDTriSurf s: myOBJSubs)
+  {
+    recurSubDiv(subdivRecurDepth,s.subD());
+  } 
+  println("myOBJSubs: " + myOBJSubs.size());
+  directionalLight(255,0,0,0,1,.5);
+  directionalLight(0,255,0,0.1,1,.1);
+  directionalLight(0,0,255,0.5,1,0);
   background(255,155,155);
-  float[] centerPt = s.getCenterPoint();
-  translate(width/2-centerPt[0],height/2-centerPt[1],-800-centerPt[2]);
-  
-  scale(overallScale);
+  float[] centerPt = new float[]{0,0,0};
+
+//  translate(width/2-centerPt[0],600,100);
+  translate(width/2-centerPt[0],height/2-centerPt[1],0);
+  scale(55.5);
+
+//  scale(15.5);
   
   pushMatrix();
-//  rotate(tm);
-//  rotateX(tm);
+  rotate(tm);
+  rotateX(tm);
 
-//  noStroke();
+  noStroke();
   fill(255);
   beginShape(TRIANGLES);
   for(SubDTriSurf sSs : mySubs)
