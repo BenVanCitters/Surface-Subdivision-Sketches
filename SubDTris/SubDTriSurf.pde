@@ -32,20 +32,6 @@ class SubDTriSurf
     return result;
   }
    
-  public void animateStartingShape(float  tm)
-  {
-    verts[0][0] = -1250*sin(1+tm);
-    verts[0][1] = -1250*sin(4+tm/4);
-    verts[0][2] = 1800*sin(9+tm*1.3);
-     
-    verts[1][0] = 950*sin(3+tm*1.3);
-    verts[1][1] = -2150*sin(2.2+tm*.4);
-    verts[1][2] = 1600*sin(5+tm*.9);
-     
-    verts[2][0] = -verts[0][0];
-    verts[2][1] = -verts[0][1];
-    verts[2][2] = verts[0][2];
-  }
   public void draw()
   {
     beginShape(TRIANGLES);    
@@ -53,8 +39,6 @@ class SubDTriSurf
     endShape();
   }
 
-   
-   
   public void passTriVerts()
   {
     vertex(verts[0][0],verts[0][1],verts[0][2]);
@@ -105,13 +89,21 @@ class SubDTriSurf
   public ArrayList<SubDTriSurf> subD()
   {
     float mx = normalDisplacementFactor;
-    float my = +mouseY*.15f/height;
+    float my = .25*(1+sin(curTime*5))/2;
     ArrayList<SubDTriSurf> lst = new ArrayList<SubDTriSurf>();
     float cntr[] = getCenterPoint();
     float area = getArea()/1.f;
+
+//    float toAttr[] = new float[]{atrractorPos[0]-cntr[0],
+//                                 atrractorPos[1]-cntr[1],
+//                                 atrractorPos[2]-cntr[2]};
+//    float aDist = dist(0,0,0,toAttr[0],toAttr[1],toAttr[2]);
+//    toAttr[0]/=aDist;toAttr[1]/=aDist;toAttr[2]/=aDist;
+//    toAttr[0]/=1;toAttr[1]/=1;toAttr[2]/=1;
     
     float norm[] = getNormal();
-    float normD = my/area;//.25;//-(10/(area*area*area) + area)*my;
+//    norm[0]+=toAttr[0];norm[1]+=toAttr[1];norm[2]+=toAttr[2];
+    float normD =(1/(10*area) )*my;
     for(int i = 0; i < 3; i++)
       cntr[i] += normD*norm[i];
     

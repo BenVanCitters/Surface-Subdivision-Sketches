@@ -17,9 +17,6 @@ void initLPD8()
 // Handle keyboard input
 void keyPressed()
 {
-
-  
-  ////////////////////
   switch(key){
     case 'd':
       debug = !debug;
@@ -29,7 +26,7 @@ void keyPressed()
       saveFrame("screenCaptures/img-######.png");
       break;
    case 'r':
-
+      capturing = !capturing;
       break;
   }
 }
