@@ -1,6 +1,9 @@
 float[][] pts;
 int[][] tris; /////perhaps make this a pshape??
+float[] centerPt;
+float[] aabb; //axis aligned bounding box
 
+import java.util.Iterator;
 
 void parsePointsAndFaces(String s)
 {
@@ -12,7 +15,7 @@ void parsePointsAndFaces(String s)
   ptLst = new ArrayList<float[]>();
   triLst = new ArrayList<int[]>();
 
-  //println("lines.length: " + lines.length);
+  println("lines.length: " + lines.length);
 
   //parse verticies from obj file
   for (int i = 0; i < lines.length; i++)
@@ -21,10 +24,9 @@ void parsePointsAndFaces(String s)
     String[] pieces = split(lines[i], ' ');
     if (pieces[0].equals("v"))
     {
-//       println(pieces[3]);
-      float pt[] = new float[] {
-        float(pieces[1]), -1.0f*float(pieces[2]), float(pieces[3])
-      };
+      float pt[] = { float(pieces[1]), 
+                     -1.0f*float(pieces[2]), 
+                     float(pieces[3]) };
       ptLst.add(pt);      
       //println("pt: {" + float(pieces[2]) + ", " + float(pieces[3]) +", " + float(pieces[4]) + "}");
     }
@@ -37,6 +39,7 @@ void parsePointsAndFaces(String s)
       triLst.add(tri);
     }
   }
+  println("pieces parsed!");
   tris = new int[triLst.size()][3];
   pts = new float[ptLst.size()][3];
   int i = 0;
@@ -45,6 +48,8 @@ void parsePointsAndFaces(String s)
     pts[i] = it.next();
     i++;
   }
+  
+  println("points put!");
   //flatten to array
   i = 0;
   for (Iterator<int[]> it = triLst.iterator();it.hasNext();)
@@ -52,6 +57,16 @@ void parsePointsAndFaces(String s)
     tris[i] = it.next();    
     i++;
   }
+  println("array flattened!\nCalc'ing Cntr");
+  centerPt = getCenterPoint();
+  println("center: " + centerPt[0] + "," + centerPt[1] + "," + centerPt[2] );
+  println("center calc'd!");
+  
+  println("calc'ing aabb!");
+  aabb = getAABB();
+  println("calc'd aabb!");
+  
+  println("aabb: " + aabb[0] + "," +aabb[1] + "," +aabb[2] + "," +aabb[3] + "," +aabb[4] + "," +aabb[5] );
 }
 
 
@@ -114,3 +129,38 @@ void parsePointsAndFaces(String s)
 //  }
 //}
 
+float[] getCenterPoint()
+{
+  double[] totalPt = {0,0,0};
+  for(int i = 0; i < pts.length; i++)
+  {
+    totalPt[0] += pts[i][0];
+    totalPt[1] += pts[i][1];
+    totalPt[2] += pts[i][2];
+  }
+  float[] result = {(float)(totalPt[0]/pts.length),
+                    (float)(totalPt[1]/pts.length),
+                    (float)(totalPt[2]/pts.length)};
+  return result;
+}
+
+//returns a float array of the form [minX,maxX,
+//                                   minY,maxY,
+//                                   minZ,maxZ]
+float[] getAABB()
+{
+                   //x,x,y,y,z,z
+  aabb = new float[]{999999999,-999999999,
+                     999999999,-999999999,
+                     999999999,-999999999};
+  for(int i = 0; i < pts.length; i++)
+  {
+    aabb[0] = min(pts[i][0],aabb[0]);
+    aabb[1] = max(pts[i][0],aabb[1]);
+    aabb[2] = min(pts[i][1],aabb[2]);
+    aabb[3] = max(pts[i][1],aabb[3]);
+    aabb[4] = min(pts[i][2],aabb[4]);
+    aabb[5] = max(pts[i][2],aabb[5]);    
+  }
+  return aabb;
+}
