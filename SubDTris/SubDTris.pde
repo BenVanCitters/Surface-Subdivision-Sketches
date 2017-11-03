@@ -45,8 +45,6 @@ void recurSubDiv(int level, ArrayList<SubDTriSurf> surf)
   }
 }
 
-
-
 void draw()
 {
   float maxDispl = 8;
@@ -70,23 +68,28 @@ void draw()
   
   pushMatrix();
     translate(width/2,height/2,-0);
-    translate(-centerPt[0],-centerPt[1],-centerPt[2]);
     
-    scale(1);
-  
+    scale(25);
+    translate(-centerPt[0],-centerPt[1],-centerPt[2]);
     rotateY(tm*2.1);
     rotateX(tm*7.1);
     rotate(tm*4);
+    float[] sz = getaabbSz();
     
     noStroke();
+//    box(sz[0],sz[1],sz[2]);
     fill(255);
-    beginShape(TRIANGLES);
+    beginShape(POINTS);
     for(SubDTriSurf sSs : mySubs)
     {
       sSs.passTriVerts();
     }
     endShape();
   popMatrix();
+  
+  int mindex = (int)(mouseY*mySubs.size()*1.f/height);
+  println("tri["+mindex+"]:" );
+  printTri(mindex);
   
   println("frameRate: " + frameRate + " subs: " + (int)(mouseY*13/height) + " triCount: " + mySubs.size());
   
@@ -96,4 +99,10 @@ void draw()
     saveFrame("frames/####.png");
     println("seconds recorded: " + framesCapturedCount/30.f);
   }
+}
+
+void printTri(int index)
+{
+  SubDTriSurf sSs = mySubs.get(index);
+  sSs.print();
 }

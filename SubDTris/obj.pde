@@ -164,3 +164,10 @@ float[] getAABB()
   }
   return aabb;
 }
+
+float[] getaabbSz()
+{
+  return new float[] {abs(aabb[0]-aabb[1]),
+                      abs(aabb[2]-aabb[3]),
+                      abs(aabb[4]-aabb[5])};
+}

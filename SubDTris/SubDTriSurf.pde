@@ -46,6 +46,13 @@ class SubDTriSurf
     vertex(verts[2][0],verts[2][1],verts[2][2]); 
   }
    
+  public void print()
+  {
+    println( "v1: [" + verts[0][0] + ", " + verts[0][1] + ", " + verts[0][2] + "]" +
+                 "[" + verts[1][0] + ", " + verts[1][1] + ", " + verts[1][2] + "]" +
+                 "[" + verts[2][0] + ", " + verts[2][1] + ", " + verts[2][2] + "]" );
+  }
+   
   private float[]getNormal(float a[],float b[])
   {
     float cross[] = new float[]{a[1]*b[2]-a[2]*b[1],//
