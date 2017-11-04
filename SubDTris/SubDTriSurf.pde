@@ -131,11 +131,13 @@ class SubDTriSurf
     return sqrt(halfPeri*(halfPeri-edgeLenA)*(halfPeri-edgeLenB)*(halfPeri-edgeLenC));
   }
    
+  //subdivision action
   public ArrayList<SubDTriSurf> subD()
   {
     ArrayList<SubDTriSurf> lst = new ArrayList<SubDTriSurf>();
     float cntr[] = getCenterPoint();
     float area = getArea()/1.f;
+    //don't waste time trying to subdivide triagles with 'zero' area
     if(area == 0)
     {
       //println("zero Area");
@@ -147,12 +149,12 @@ class SubDTriSurf
     float t = cntr[0]*5+cntr[1]+cntr[2]*3 -offset;
     float totalDist = 3.23861+9;
     float pct = t/totalDist;
-    float s = (1+sin(millis()/5000.f+pct*PI))/2;
+    float s = (1+sin(curTime+pct*PI))/2;
     s = s*s*s;
     //s = 1-s;
-    float normD = .03*s;
+    float normD = .05*s;
     if(random(1)>.99)
-      normD*=5;
+      normD*=9;
     for(int i = 0; i < 3; i++)
       cntr[i] += normD*norm[i];
     

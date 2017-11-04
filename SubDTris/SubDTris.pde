@@ -19,7 +19,7 @@ boolean isNan(float[] t)
 
 void setup()
 {
-  size(2000,2000,OPENGL);  
+  size(1920,1080,OPENGL);  
   //initLPD8();
   parsePointsAndFaces("model.obj");
   mySubs = new ArrayList<SubDTriSurf>();
@@ -79,9 +79,9 @@ void draw()
 //  s.animateStartingShape(tm);
 
  
-  directionalLight(255, 229, 0,0,1,.5);
+  directionalLight(255, 0, 0,0,1,.5);
   directionalLight(0,255,0,1,.1,.1);
-  directionalLight(0,0,50,0,-1,0);
+  directionalLight(0,0,255,0,-1,0);
   //ambientLight(0, 0, 100);
   background(100,100,100);
 
@@ -89,10 +89,10 @@ void draw()
   pushMatrix();
     translate(width/2,height/2,-50);
     
-    scale(250);
+    scale(130);
     translate(-centerPt[0],-centerPt[1],-centerPt[2]);
     translate(0,1);
-    rotateY(.2);
+    rotateY(.2+curTime);
     //start the recursive subdividing
     recurSubDiv(2,myOBJSubs);
 
@@ -124,7 +124,7 @@ void draw()
   if(capturing)
   {
     framesCapturedCount++;
-    saveFrame("frames/####.png");
+    saveFrame("framesmv/####.png");
     println("seconds recorded: " + framesCapturedCount/30.f);
   }
 }
