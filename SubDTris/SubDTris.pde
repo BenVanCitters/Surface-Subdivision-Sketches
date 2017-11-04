@@ -3,7 +3,7 @@ import java.lang.Float;
 
 ArrayList<SubDTriSurf> myOBJSubs;
 ArrayList<SubDTriSurf> mySubs;
-boolean capturing = false;
+boolean capturing = true;
 long framesCapturedCount = 0;
 float curTime = 0f;
 
@@ -19,7 +19,7 @@ boolean isNan(float[] t)
 
 void setup()
 {
-  size(1280,720,OPENGL);  
+  size(2000,2000,OPENGL);  
   //initLPD8();
   parsePointsAndFaces("model.obj");
   mySubs = new ArrayList<SubDTriSurf>();
@@ -47,11 +47,16 @@ void setup()
     } 
   }
 }
+
 float my = .25*(1+sin(curTime*5))/2;
 void recurSubDiv(int level, ArrayList<SubDTriSurf> surf)
 {
   for(SubDTriSurf ff : surf)
   {
+
+    float[] center = ff.getCenterPoint();
+    if(center[1] > -10)// || center[1] < -15 )
+      continue;
     if(level < 1)
       mySubs.add(ff);
     else
@@ -61,10 +66,11 @@ void recurSubDiv(int level, ArrayList<SubDTriSurf> surf)
 
 void draw()
 {
-   my = 1*(1+sin(curTime*5))/2;
+
+   my = mouseY*0.3/height;
   float maxDispl = 8;
   normalDisplacementFactor = mouseX*maxDispl/height;
-  subdivRecurDepth = (6*mouseX)/width;
+
   
   float tm  = globalTimeScale* (frameCount*1000.f/30.f)/15600.f;//millis()/2000.f;
   curTime = tm; 
@@ -72,23 +78,25 @@ void draw()
   mySubs.clear();
 //  s.animateStartingShape(tm);
 
-  for(SubDTriSurf s: myOBJSubs)
-  {
-    recurSubDiv(subdivRecurDepth,s.subD());
-  } 
-  directionalLight(255,0,0,0,-1,.5);
+ 
+  directionalLight(255, 229, 0,0,1,.5);
   directionalLight(0,255,0,1,.1,.1);
-  background(255,200,0);
+  directionalLight(0,0,50,0,-1,0);
+  //ambientLight(0, 0, 100);
+  background(100,100,100);
 
   
   pushMatrix();
     translate(width/2,height/2,-50);
     
-    scale(30);
+    scale(250);
     translate(-centerPt[0],-centerPt[1],-centerPt[2]);
-    rotateY(tm*2.1);
-    rotateX(tm*7.1);
-    rotate(tm*4);
+    translate(0,1);
+    rotateY(.2);
+    //start the recursive subdividing
+    recurSubDiv(2,myOBJSubs);
+
+    
     float[] sz = getaabbSz();
     
     noStroke();
@@ -109,9 +117,7 @@ void draw()
   popMatrix();
   println("nanCount: " + nanCount);
   println("infCount: " + infCount);
-  int mindex = (int)(mouseY*mySubs.size()*1.f/height);
-  println("tri["+mindex+"]:" );
-  //printTri(mindex);
+
   
   println("frameRate: " + frameRate + " subs: " + subdivRecurDepth + " triCount: " + mySubs.size());
   

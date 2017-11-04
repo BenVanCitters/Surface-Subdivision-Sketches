@@ -64,7 +64,8 @@ class SubDTriSurf
   }
    
 
-    public boolean hasInf()
+  //diagnostic to tell if bad math has been performed on the verts in this tri
+  public boolean hasInf()
   {
     boolean result = false;
     for(int i = 0; i < verts.length; i++)
@@ -77,6 +78,7 @@ class SubDTriSurf
     return result;
   }
   
+  //diagnostic to tell if bad math has been performed on the verts in this tri
   public boolean hasNaN()
   {
     boolean result = false;
@@ -127,12 +129,10 @@ class SubDTriSurf
                           verts[1][2]);
     float halfPeri = (edgeLenA+edgeLenB+edgeLenC)/2;
     return sqrt(halfPeri*(halfPeri-edgeLenA)*(halfPeri-edgeLenB)*(halfPeri-edgeLenC));
-    
   }
    
   public ArrayList<SubDTriSurf> subD()
   {
-    
     ArrayList<SubDTriSurf> lst = new ArrayList<SubDTriSurf>();
     float cntr[] = getCenterPoint();
     float area = getArea()/1.f;
@@ -141,18 +141,18 @@ class SubDTriSurf
       //println("zero Area");
       return lst;
     }
-    float mx = normalDisplacementFactor;
-    //float my = 0;//.25*(1+sin(curTime*5))/2;
-//    float toAttr[] = new float[]{atrractorPos[0]-cntr[0],
-//                                 atrractorPos[1]-cntr[1],
-//                                 atrractorPos[2]-cntr[2]};
-//    float aDist = dist(0,0,0,toAttr[0],toAttr[1],toAttr[2]);
-//    toAttr[0]/=aDist;toAttr[1]/=aDist;toAttr[2]/=aDist;
-//    toAttr[0]/=1;toAttr[1]/=1;toAttr[2]/=1;
     
     float norm[] = getNormal();
-//    norm[0]+=toAttr[0];norm[1]+=toAttr[1];norm[2]+=toAttr[2];
-    float normD =(1/(10*max(.1,area)) )*my;
+    float offset = -3.2381;
+    float t = cntr[0]*5+cntr[1]+cntr[2]*3 -offset;
+    float totalDist = 3.23861+9;
+    float pct = t/totalDist;
+    float s = (1+sin(millis()/5000.f+pct*PI))/2;
+    s = s*s*s;
+    //s = 1-s;
+    float normD = .03*s;
+    if(random(1)>.99)
+      normD*=5;
     for(int i = 0; i < 3; i++)
       cntr[i] += normD*norm[i];
     
