@@ -89,7 +89,7 @@ void controllerChange(int channel, int number, int value) {
       subdivRecurDepth = 1+(5*value)/128;
       break;  
     case 4: // = K4
-    globalTimeScale = .0001+2*value/128.f;
+      globalTimeScale = .0001+2*value/128.f;
       break;  
     case 5: // = K5
 //      gFlySpeed = value/

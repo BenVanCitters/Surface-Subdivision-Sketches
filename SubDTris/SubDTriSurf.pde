@@ -89,7 +89,7 @@ class SubDTriSurf
   public ArrayList<SubDTriSurf> subD()
   {
     float mx = normalDisplacementFactor;
-    float my = .25*(1+sin(curTime*5))/2;
+    float my = 1*mouseY*.05/height;//(1+sin(curTime*5))/2;
     ArrayList<SubDTriSurf> lst = new ArrayList<SubDTriSurf>();
     float cntr[] = getCenterPoint();
     float area = getArea()/1.f;
@@ -103,7 +103,7 @@ class SubDTriSurf
     
     float norm[] = getNormal();
 //    norm[0]+=toAttr[0];norm[1]+=toAttr[1];norm[2]+=toAttr[2];
-    float normD =(1/(10*area) )*my;
+    float normD =1*my;
     for(int i = 0; i < 3; i++)
       cntr[i] += normD*norm[i];
     

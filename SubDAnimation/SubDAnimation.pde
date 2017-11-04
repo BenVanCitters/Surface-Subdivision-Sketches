@@ -1,7 +1,6 @@
 SubDSurf s;
 ArrayList<SubDSurf> mySubs;
 boolean capturing = false;
-float curTime = 0f;
 void setup()
 {
 //  size(500,500,P3D);
@@ -15,9 +14,7 @@ void recurSubDiv(int level, ArrayList<SubDSurf> surf)
 {
   for(SubDSurf ff : surf)
   {
-    float[] centerPt = ff.getCenterPoint();
-    float modVal = (1+sin(curTime*5+centerPt[0]))/2;
-    if(level < 1)// || modVal >.5)
+    if(level < 1)
       mySubs.add(ff);
     else
     recurSubDiv(level-1,ff.subD());
@@ -27,7 +24,6 @@ void recurSubDiv(int level, ArrayList<SubDSurf> surf)
 void draw()
 {
   float tm  =  (frameCount*1000.f/30.f)/3600.f;//millis()/2000.f;
-  curTime = tm; //global
   mySubs.clear();
   s.animateStartingShape(tm);
   recurSubDiv((int)(mouseY*13/height),s.subD());
@@ -45,7 +41,10 @@ void draw()
   rotateX(tm);
 
   noStroke();
-  fill(255);
+//noFill();
+//fill(255,102,0);
+fill(255);
+//stroke(255);
   beginShape(TRIANGLES);
   for(SubDSurf sSs : mySubs)
   {
@@ -54,23 +53,22 @@ void draw()
   endShape();
   popMatrix();
   
-//  pushMatrix();
-//  /*  rotate(tm);
-//  rotateX(tm);*/
-//  
-//  rotate(tm);
-//  rotateX(tm+PI);
-////  rotateY(PI+tm);
-//  rotateZ(PI/2);
-//  
-//  beginShape(TRIANGLES);
-//  for(SubDSurf sSs : mySubs)
-//  {
-//    sSs.passTriVerts();
-//  }
-//  endShape();
-//  popMatrix();
-
+  pushMatrix();
+  /*  rotate(tm);
+  rotateX(tm);*/
+  
+  rotate(tm);
+  rotateX(tm+PI);
+//  rotateY(PI+tm);
+  rotateZ(PI/2);
+  
+  beginShape(TRIANGLES);
+  for(SubDSurf sSs : mySubs)
+  {
+    sSs.passTriVerts();
+  }
+  endShape();
+  popMatrix();
 //  for(SubDSurf sSs : mySubs)
 //  {
 //    sSs.draw();

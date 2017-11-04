@@ -19,19 +19,6 @@ class SubDSurf
      pts[3][1] = 250;
      pts[3][2] = 0;
    }
-   
-   public float[] getCenterPoint()
-   {
-     float[] result = new float[3];
-     result[0] =pts[0][0]+pts[1][0]+pts[2][0]+pts[3][0]; 
-     result[1] =pts[0][1]+pts[1][1]+pts[2][1]+pts[3][1];
-     result[2] =pts[0][2]+pts[1][2]+pts[2][2]+pts[3][2];
-     result[0]/=4;
-     result[1]/=4;
-     result[2]/=4;
-     return result;
-   }
-   
    public void animateStartingShape(float  tm)
    {
      pts[0][0] = -1250*sin(tm);
@@ -129,43 +116,19 @@ class SubDSurf
     float mx = .01+mouseX*25.f/width;
     float my = .01+mouseY*5.f/height;
      ArrayList<SubDSurf> lst = new ArrayList<SubDSurf>();
-     float cntr[] = getCenterPoint();
-     mx += .9+.001+.3*(1+sin(curTime/1000.f+cntr[0]/100))/2;
      float edgeLen = dist(pts[0][0],pts[0][1],pts[0][2],
-                          (pts[0][0]+pts[2][0])/2,
-                          (pts[0][1]+pts[2][1])/2,
-                          (pts[0][2]+pts[2][2])/2)/mx;
+                          (pts[0][0]+pts[1][0])/2,
+                          (pts[0][1]+pts[1][1])/2,
+                          (pts[0][2]+pts[1][2])/2)/mx;
     float norm[] = getAvgNormal();
     norm[0]*=edgeLen;norm[1]*=edgeLen;norm[2]*=edgeLen;
-
-    float mulPcts[] = new float[]{(1+sin(5+curTime+cntr[0]/100))/2,
-                                  (1+sin(3+curTime/1.1+cntr[1]/100))/2,
-                                  (1+sin(curTime/7+cntr[2]/100))/2};
-//    float newCenterPt[] = new float[]{(pts[1][0]-pts[0][0])*mulPcts[0]+(pts[2][0]-pts[0][0])*mulPcts[1]+(pts[3][0]-pts[0][0])*mulPcts[2]+norm[0],
-//                                      (pts[1][1]-pts[0][1])*mulPcts[0]+(pts[2][1]-pts[0][1])*mulPcts[1]+(pts[3][1]-pts[0][1])*mulPcts[2]+norm[1],
-//                                      (pts[1][2]-pts[0][2])*mulPcts[0]+(pts[2][2]-pts[0][2])*mulPcts[1]+(pts[3][0]-pts[0][2])*mulPcts[2]+norm[2]};
-
-float v1[] = new float[]{(pts[1][0]-pts[0][0]),
-                         (pts[1][1]-pts[0][1]),
-                         (pts[1][2]-pts[0][2])};
-float v2[] = new float[]{0,0,0,(pts[2][0]-pts[0][0]),
-                         (pts[2][1]-pts[0][1]),
-                         (pts[2][2]-pts[0][2])};
-float v3[] = new float[]{(pts[3][0]-pts[0][0]),
-                         (pts[3][1]-pts[0][1]),
-                         (pts[3][2]-pts[0][2])};
-
-    float newCenterPt[] = new float[]{pts[0][0]+v1[0]*mulPcts[0]+v2[0]*mulPcts[1]+v3[0]*mulPcts[2]+norm[0],
-                                      pts[0][1]+v1[1]*mulPcts[0]+v2[1]*mulPcts[1]+v3[1]*mulPcts[2]+norm[1],
-                                      pts[0][2]+v1[2]*mulPcts[0]+v2[2]*mulPcts[1]+v3[2]*mulPcts[2]+norm[2]};
 
     float newPts[][] = new float[][]{{(pts[0][0]+pts[1][0])/2,
                                       (pts[0][1]+pts[1][1])/2,
                                       (pts[0][2]+pts[1][2])/2},
-                                      newCenterPt,
-//                                     {(pts[0][0]+pts[1][0]+pts[2][0]+pts[3][0])/4+norm[0],
-//                                      (pts[0][1]+pts[1][1]+pts[2][1]+pts[3][1])/4+norm[1],
-//                                      (pts[0][2]+pts[1][2]+pts[2][2]+pts[3][2])/4+norm[2]},
+                                     {(pts[0][0]+pts[1][0]+pts[2][0]+pts[3][0])/4+norm[0],
+                                      (pts[0][1]+pts[1][1]+pts[2][1]+pts[3][1])/4+norm[1],
+                                      (pts[0][2]+pts[1][2]+pts[2][2]+pts[3][2])/4+norm[2]},
                                      {(pts[0][0]+pts[3][0])/2,
                                       (pts[0][1]+pts[3][1])/2,
                                       (pts[0][2]+pts[3][2])/2},
