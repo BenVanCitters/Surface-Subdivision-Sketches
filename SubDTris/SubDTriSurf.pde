@@ -3,21 +3,21 @@ class SubDTriSurf
   public float[][] verts = new float[3][3];
   public SubDTriSurf()
   {
-    float r = 700;
-    float t = 0;
-    verts[0][0] = r*cos(t);
-    verts[0][1] = r*sin(t);
-    verts[0][2] = 0;
+    //float r = 700;
+    //float t = 0;
+    //verts[0][0] = r*cos(t);
+    //verts[0][1] = r*sin(t);
+    //verts[0][2] = 0;
      
-    t += TWO_PI/3;
-    verts[1][0] = r*cos(t);
-    verts[1][1] = r*sin(t);
-    verts[1][2] = 0;
+    //t += TWO_PI/3;
+    //verts[1][0] = r*cos(t);
+    //verts[1][1] = r*sin(t);
+    //verts[1][2] = 0;
 
-    t += TWO_PI/3;
-    verts[2][0] = r*cos(t);
-    verts[2][1] = r*sin(t);
-    verts[2][2] = 0;
+    //t += TWO_PI/3;
+    //verts[2][0] = r*cos(t);
+    //verts[2][1] = r*sin(t);
+    //verts[2][2] = 0;
   }
    
   public float[] getCenterPoint()
@@ -48,9 +48,46 @@ class SubDTriSurf
    
   public void print()
   {
-    println( "v1: [" + verts[0][0] + ", " + verts[0][1] + ", " + verts[0][2] + "]" +
-                 "[" + verts[1][0] + ", " + verts[1][1] + ", " + verts[1][2] + "]" +
+    println( "v1: [" + verts[0][0] + ", " + verts[0][1] + ", " + verts[0][2] + "]\n" +
+                 "[" + verts[1][0] + ", " + verts[1][1] + ", " + verts[1][2] + "]\n" +
                  "[" + verts[2][0] + ", " + verts[2][1] + ", " + verts[2][2] + "]" );
+    for(int i = 0; i < verts.length; i++)
+    {
+      for(int j = 0; j < verts[i].length; j++)
+      {
+        if( Float.isNaN(verts[i][j]) )
+        {
+          println("[" + i + "][" + j+ "] -> is nan");  
+        }
+      }
+    }
+  }
+   
+
+    public boolean hasInf()
+  {
+    boolean result = false;
+    for(int i = 0; i < verts.length; i++)
+    {
+      for(int j = 0; j < verts[i].length; j++)
+      {
+        result |= Float.isInfinite(verts[i][j]);
+      }
+    }
+    return result;
+  }
+  
+  public boolean hasNaN()
+  {
+    boolean result = false;
+    for(int i = 0; i < verts.length; i++)
+    {
+      for(int j = 0; j < verts[i].length; j++)
+      {
+        result |= Float.isNaN(verts[i][j]);
+      }
+    }
+    return result;
   }
    
   private float[]getNormal(float a[],float b[])
@@ -95,12 +132,17 @@ class SubDTriSurf
    
   public ArrayList<SubDTriSurf> subD()
   {
-    float mx = normalDisplacementFactor;
-    float my = .25*(1+sin(curTime*5))/2;
+    
     ArrayList<SubDTriSurf> lst = new ArrayList<SubDTriSurf>();
     float cntr[] = getCenterPoint();
     float area = getArea()/1.f;
-
+    if(area == 0)
+    {
+      //println("zero Area");
+      return lst;
+    }
+    float mx = normalDisplacementFactor;
+    //float my = 0;//.25*(1+sin(curTime*5))/2;
 //    float toAttr[] = new float[]{atrractorPos[0]-cntr[0],
 //                                 atrractorPos[1]-cntr[1],
 //                                 atrractorPos[2]-cntr[2]};
@@ -110,7 +152,7 @@ class SubDTriSurf
     
     float norm[] = getNormal();
 //    norm[0]+=toAttr[0];norm[1]+=toAttr[1];norm[2]+=toAttr[2];
-    float normD =(1/(10*area) )*my;
+    float normD =(1/(10*max(.1,area)) )*my;
     for(int i = 0; i < 3; i++)
       cntr[i] += normD*norm[i];
     

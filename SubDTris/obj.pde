@@ -28,7 +28,13 @@ void parsePointsAndFaces(String s)
       float pt[] = { float(pieces[1]), 
                      -1.0f*float(pieces[2]), 
                      float(pieces[3]) };
-      ptLst.add(pt);      
+      ptLst.add(pt);   
+      if( Float.isNaN(float(pieces[1])) || 
+          Float.isNaN(float(pieces[1])) || 
+          Float.isNaN(float(pieces[1])) )
+      {
+        println("null point encountered: " + lines[i]);
+      }
       if(count++ < 5)
       {
         println("pt: {" + float(pieces[1]) + ", " + float(pieces[2]) +", " + float(pieces[3]) + "}");
@@ -39,7 +45,7 @@ void parsePointsAndFaces(String s)
     {
       //println("tri {" + int(pieces[1]) + ", " + int(pieces[2]) +", " + int(pieces[3]) + "}"); 
       tri = new int[] {
-        int(pieces[1]), int(pieces[2]), int(pieces[3])
+        int(pieces[1])-1, int(pieces[2])-1, int(pieces[3])-1
       };
       triLst.add(tri);
     }
