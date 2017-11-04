@@ -17,6 +17,7 @@ void parsePointsAndFaces(String s)
 
   println("lines.length: " + lines.length);
 
+  int count = 0;
   //parse verticies from obj file
   for (int i = 0; i < lines.length; i++)
   {
@@ -28,6 +29,10 @@ void parsePointsAndFaces(String s)
                      -1.0f*float(pieces[2]), 
                      float(pieces[3]) };
       ptLst.add(pt);      
+      if(count++ < 5)
+      {
+        println("pt: {" + float(pieces[1]) + ", " + float(pieces[2]) +", " + float(pieces[3]) + "}");
+      }
       //println("pt: {" + float(pieces[2]) + ", " + float(pieces[3]) +", " + float(pieces[4]) + "}");
     }
     else if (pieces[0].equals("f"))
